@@ -1,0 +1,38 @@
+{
+	"extends": "npm-package-json-lint-config-default",
+	"rules": {
+		"prefer-alphabetical-bundledDependencies": "error",
+		"prefer-alphabetical-dependencies": "error",
+		"prefer-alphabetical-devDependencies": "error",
+		"prefer-alphabetical-optionalDependencies": "error",
+		"prefer-alphabetical-peerDependencies": "error",
+		"prefer-property-order": [
+			"error",
+			[
+				"name",
+				"version",
+				"description",
+				"author",
+				"license",
+				"keywords",
+				"homepage",
+				"repository",
+				"bugs",
+				"engines",
+				"directories",
+				"files",
+				"type",
+				"main",
+				"module",
+				"react-native",
+				"types",
+				"bin",
+				"dependencies",
+				"devDependencies",
+				"peerDependencies",
+				"publishConfig",
+				"scripts"
+			]
+		]
+	}
+}

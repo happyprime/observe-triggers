@@ -1,0 +1,9 @@
+{
+    "compress": {
+      "unsafe": true
+    },
+    "mangle": true,
+	"module": true,
+    "keep_fnames": true,
+    "keep_classnames": true
+  }

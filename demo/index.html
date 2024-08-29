@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observe Triggers Demo</title>
+	<link rel="stylesheet" href="../demo/css/style.css">
+	<link rel="stylesheet" href="../demo/css/animations.css">
+	<link rel="stylesheet" href="../demo/css/colors.css">
+</head>
+<body>
+    <div class="container">
+        <div class="horizontal-line" style="top: 10vh" data-percentage="10%"></div>
+		<div class="horizontal-line" style="top: 20vh" data-percentage="20%"></div>
+		<div class="horizontal-line" style="top: 30vh" data-percentage="30%"></div>
+		<div class="horizontal-line" style="top: 40vh" data-percentage="40%"></div>
+		<div class="horizontal-line" style="top: 50vh" data-percentage="50%"></div>
+		<div class="horizontal-line" style="top: 60vh" data-percentage="60%"></div>
+		<div class="horizontal-line" style="top: 70vh" data-percentage="70%"></div>
+		<div class="horizontal-line" style="top: 80vh" data-percentage="80%"></div>
+		<div class="horizontal-line" style="top: 90vh" data-percentage="90%"></div>
+
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-10-toggle-jelly" style="background-color: #ff5733;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-20-add-glitch" style="background-color: #33ff57;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-30-toggle-pulse" style="background-color: #5733ff;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-80-toggle-flip" style="background-color: #ff33f1;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-50-toggle-swing" style="background-color: #33fff1;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-60-bottom-toggle-float" style="background-color: #f1ff33;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-70-add-skew" style="background-color: #ff8c33;"></div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+        <div class="demo-box observe-trigger-80-toggle-wobble" style="background-color: #33a1ff;"></div>
+		<div style="height: 10vh;"></div> <!-- Spacer -->
+		<div class="demo-box observe-trigger-90-add-black
+			observe-trigger-80-toggle-red
+			observe-trigger-79-remove-black
+			observe-trigger-70-toggle-green
+			observe-trigger-69-remove-red
+			observe-trigger-60-toggle-blue
+			observe-trigger-59-remove-green
+			observe-trigger-50-toggle-yellow
+			observe-trigger-49-remove-blue
+			observe-trigger-40-toggle-purple
+			observe-trigger-39-remove-yellow
+			observe-trigger-30-toggle-cyan
+			observe-trigger-29-remove-purple
+			observe-trigger-20-toggle-magenta
+			observe-trigger-19-remove-cyan
+			observe-trigger-10-toggle-orange
+			observe-trigger-9-remove-magenta
+			"></div>
+		</div>
+    </div>
+
+    <script type="module">
+        import ObserveTriggers from '../build/index.js';
+
+        // Initialize the ScrollObserver
+        new ObserveTriggers({
+            baseTriggerClass: 'observe-trigger',
+            baseTriggeredClass: 'observe-triggered'
+        });
+
+        // Listen for scrollTrigger events
+        window.addEventListener('scrollObserverTriggered', (event) => {
+            const { element, isIntersecting, config } = event.detail;
+            console.log(`Element intersected at ${config.rootMargin}% of viewport ${config.edge}. Action: ${config.action}, Custom class: ${config.class}`);
+        });
+    </script>
+</body>
+</html>
