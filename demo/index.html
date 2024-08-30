@@ -53,14 +53,9 @@
     <script type="module">
         import ObserveTriggers from '../src/index.js';
 
-        // Initialize the ScrollObserver
-        new ObserveTriggers({
-            baseTriggerClass: 'observe-trigger',
-            baseTriggeredClass: 'observe-triggered'
-        });
+		new ObserveTriggers();
 
-        // Listen for scrollTrigger events
-        window.addEventListener('scrollObserverTriggered', (event) => {
+        window.addEventListener('observerTriggered', (event) => {
             const { element, isIntersecting, config } = event.detail;
             console.log(`Element intersected at ${config.rootMargin}% of viewport ${config.edge}. Action: ${config.action}, Custom class: ${config.class}`);
         });

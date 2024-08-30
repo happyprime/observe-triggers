@@ -18,6 +18,11 @@ class ObserveTriggers {
 		window.addEventListener('load', () => this.observeElements());
 	}
 
+	/**
+	 * Parse the class name for its configuration.
+	 * @param {string} className
+	 * @returns
+	 */
 	parseObserverClass(className) {
 		// Remove the configured baseTriggerClass from the className.
 		const parts = className
@@ -54,7 +59,9 @@ class ObserveTriggers {
 		}
 
 		// Parse for a specified action, if it exists.
-		if (['toggle', 'add', 'remove'].includes(parts[currentPart])) {
+		if (
+			['toggle', 'add', 'remove', 'replace'].includes(parts[currentPart])
+		) {
 			config.action = parts[currentPart];
 			currentPart++;
 		}
@@ -122,40 +129,74 @@ class ObserveTriggers {
 		if (!this.observers.has(element)) {
 			this.observers.set(element, new Map());
 		}
-		this.observers.get(element).set(className, observer);
+		this.observers.get(element).set(className, observer, false);
 	}
 
 	handleIntersection(element, entry, config, className) {
 		const elementStates = this.elementStates.get(element) || new Map();
-		const wasTriggered = elementStates.get(className);
+
+		// Determine if this element has previously triggered the observer.
+		const hasTriggered = elementStates.get(className);
+
+		// Determine if the element is currently considered triggered.
 		const isTriggered = entry.intersectionRatio > config.threshold;
 
-		if (isTriggered !== wasTriggered) {
+		/**
+		 * If the element is currently intersecting, we want to trigger the
+		 * observer. If the element has previously triggered the observer, we
+		 * want to account for possible cases when the element is crossing out
+		 * of its bounds and perform the action accordingly.
+		 */
+		if (entry.isIntersecting || hasTriggered) {
 			switch (config.action) {
 				case 'add':
-					if (isTriggered) {
+					if (entry.isIntersecting && isTriggered) {
 						element.classList.add(config.class);
 					}
 					break;
 				case 'remove':
-					if (isTriggered) {
+					if (entry.isIntersecting && isTriggered) {
 						element.classList.remove(config.class);
 					}
+					break;
+				case 'replace':
+					// Remove all other class names that could be added based on other
+					// class names that start with the baseTriggerClass by parsing them
+					// with the parseObserverClass method.
+					element.classList.forEach((otherClass) => {
+						if (
+							otherClass.startsWith(this.config.baseTriggerClass)
+						) {
+							const otherConfig =
+								this.parseObserverClass(otherClass);
+							if (otherConfig.class !== config.class) {
+								element.classList.remove(otherConfig.class);
+							}
+						}
+					});
+					element.classList.add(config.class);
 					break;
 				case 'toggle':
 				default:
 					element.classList.toggle(config.class, isTriggered);
 					break;
 			}
-
-			if (config.action !== 'toggle' && isTriggered) {
-				this.disconnectObserver(element, className);
-			}
-
-			elementStates.set(className, isTriggered);
-			this.elementStates.set(element, elementStates);
-			this.dispatchEvent(element, isTriggered, config, className);
 		}
+
+		// Add and remove are one-time actions, so we disconnect the observer.
+		if (config.action.includes(['add', 'remove']) && isTriggered) {
+			this.disconnectObserver(element, className);
+		}
+
+		// Track whether the element has ever triggered the observer.
+		if (!hasTriggered && isTriggered) {
+			elementStates.set(className, true);
+		} else {
+			elementStates.set(className, false);
+		}
+
+		this.elementStates.set(element, elementStates);
+		this.dispatchEvent(element, isTriggered, config, className);
 	}
 
 	disconnectObserver(element, className) {
