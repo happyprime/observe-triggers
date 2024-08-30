@@ -1,152 +1,277 @@
 /* Basic animations */
 .bounce {
-	animation: bounce 0.5s ease infinite;
-  }
+	animation: bounce 0.5s ease;
+}
 
-  @keyframes bounce {
-	0%, 100% { transform: translateY(0); }
-	50% { transform: translateY(-10px); }
-  }
+@keyframes bounce {
+	0%, 100% {
+		transform: translateY(0);
+	}
 
-  .shake {
-	animation: shake 0.5s ease-in-out infinite;
-  }
+	50% {
+		transform: translateY(-10px);
+	}
+}
 
-  @keyframes shake {
-	0%, 100% { transform: translateX(0); }
-	25% { transform: translateX(-5px); }
-	75% { transform: translateX(5px); }
-  }
+.shake {
+	animation: shake 0.5s ease-in-out;
+}
 
-  .rotate {
+@keyframes shake {
+	0%, 100% {
+		transform: translateX(0);
+	}
+
+	25% {
+		transform: translateX(-5px);
+	}
+
+	75% {
+		transform: translateX(5px);
+	}
+}
+
+.rotate {
 	animation: rotate 1s ease-in-out forwards;
-  }
+}
 
-  @keyframes rotate {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(180deg); }
-  }
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
 
-  .spin {
-	animation: spin 3s linear infinite;
-  }
+	100% {
+		transform: rotate(180deg);
+	}
+}
 
-  @keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
-  }
+.spin {
+	animation: spin 3s linear;
+}
 
-  .grow {
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.grow {
 	animation: grow 1s ease-out forwards;
-  }
+}
 
-  @keyframes grow {
-	0% { transform: scale(1); }
-	100% { transform: scale(2); }
-  }
+@keyframes grow {
+	0% {
+		transform: scale(1);
+	}
 
-  /* Wild animations */
-  .jelly {
-	animation: jelly 0.8s ease-in-out infinite;
-  }
+	100% {
+		transform: scale(2);
+	}
+}
 
-  @keyframes jelly {
-	0%, 100% { transform: scale(1, 1); }
-	25% { transform: scale(0.9, 1.1); }
-	50% { transform: scale(1.1, 0.9); }
-	75% { transform: scale(0.95, 1.05); }
-  }
+/* Wild animations */
+.jelly {
+	animation: jelly 0.8s ease-in-out;
+}
 
-  .glitch {
-	animation: glitch 0.5s ease-in-out infinite;
-  }
+@keyframes jelly {
+	0%, 100% {
+		transform: scale(1, 1);
+	}
 
-  @keyframes glitch {
-	0% { transform: translate(0); }
-	20% { transform: translate(-5px, 5px); }
-	40% { transform: translate(-5px, -5px); }
-	60% { transform: translate(5px, 5px); }
-	80% { transform: translate(5px, -5px); }
-	100% { transform: translate(0); }
-  }
+	25% {
+		transform: scale(0.9, 1.1);
+	}
 
-  .pulse {
-	animation: pulse 1.5s ease-in-out infinite;
-  }
+	50% {
+		transform: scale(1.1, 0.9);
+	}
 
-  @keyframes pulse {
-	0%, 100% { transform: scale(1); opacity: 1; }
-	50% { transform: scale(1.05); opacity: 0.8; }
-  }
+	75% {
+		transform: scale(0.95, 1.05);
+	}
+}
 
-  .flip {
-	animation: flip 2s linear infinite;
-  }
+.glitch {
+	animation: glitch 0.5s ease-in-out;
+}
 
-  @keyframes flip {
-	0% { transform: perspective(400px) rotateY(0); }
-	100% { transform: perspective(400px) rotateY(360deg); }
-  }
+@keyframes glitch {
+	0% {
+		transform: translate(0);
+	}
 
-  .swing {
-	animation: swing 1s ease-in-out infinite alternate;
-  }
+	20% {
+		transform: translate(-5px, 5px);
+	}
 
-  @keyframes swing {
-	0% { transform: rotate(3deg); }
-	100% { transform: rotate(-3deg); }
-  }
+	40% {
+		transform: translate(-5px, -5px);
+	}
 
-  .float {
-	animation: float 3s ease-in-out infinite;
-  }
+	60% {
+		transform: translate(5px, 5px);
+	}
 
-  @keyframes float {
-	0%, 100% { transform: translateY(0); }
-	50% { transform: translateY(-20px); }
-  }
+	80% {
+		transform: translate(5px, -5px);
+	}
 
-  .skew {
-	animation: skew 2s ease-in-out infinite alternate;
-  }
+	100% {
+		transform: translate(0);
+	}
+}
 
-  @keyframes skew {
-	0% { transform: skew(0deg, 0deg); }
-	100% { transform: skew(10deg, 5deg); }
-  }
+.pulse {
+	animation: pulse 1.5s ease-in-out;
+}
 
-  .wobble {
-	animation: wobble 1s ease-in-out infinite;
-  }
+@keyframes pulse {
+	0%, 100% {
+		transform: scale(1);
+		opacity: 1;
+	}
 
-  @keyframes wobble {
-	0%, 100% { transform: translateX(0%); }
-	15% { transform: translateX(-25%) rotate(-5deg); }
-	30% { transform: translateX(20%) rotate(3deg); }
-	45% { transform: translateX(-15%) rotate(-3deg); }
-	60% { transform: translateX(10%) rotate(2deg); }
-	75% { transform: translateX(-5%) rotate(-1deg); }
-  }
+	50% {
+		transform: scale(1.05);
+		opacity: 0.8;
+	}
+}
 
-  .heartbeat {
-	animation: heartbeat 1.5s ease-in-out infinite;
-  }
+.flip {
+	animation: flip 2s linear;
+}
 
-  @keyframes heartbeat {
-	0%, 100% { transform: scale(1); }
-	10%, 30% { transform: scale(0.9); }
-	20%, 40% { transform: scale(1.1); }
-  }
+@keyframes flip {
+	0% {
+		transform: perspective(400px) rotateY(0);
+	}
 
-  .rubberBand {
-	animation: rubberBand 1s ease-in-out infinite;
-  }
+	100% {
+		transform: perspective(400px) rotateY(360deg);
+	}
+}
 
-  @keyframes rubberBand {
-	0%, 100% { transform: scale3d(1, 1, 1); }
-	30% { transform: scale3d(1.25, 0.75, 1); }
-	40% { transform: scale3d(0.75, 1.25, 1); }
-	50% { transform: scale3d(1.15, 0.85, 1); }
-	65% { transform: scale3d(0.95, 1.05, 1); }
-	75% { transform: scale3d(1.05, 0.95, 1); }
-  }
+.swing {
+	animation: swing 1s ease-in-out alternate;
+}
+
+@keyframes swing {
+	0% {
+		transform: rotate(3deg);
+	}
+
+	100% {
+		transform: rotate(-3deg);
+	}
+}
+
+.float {
+	animation: float 3s ease-in-out;
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
+}
+
+.skew {
+	animation: skew 2s ease-in-out alternate;
+}
+
+@keyframes skew {
+	0% {
+		transform: skew(0deg, 0deg);
+	}
+
+	100% {
+		transform: skew(10deg, 5deg);
+	}
+}
+
+.wobble {
+	animation: wobble 1s ease-in-out;
+}
+
+@keyframes wobble {
+	0%, 100% {
+		transform: translateX(0%);
+	}
+
+	15% {
+		transform: translateX(-25%) rotate(-5deg);
+	}
+
+	30% {
+		transform: translateX(20%) rotate(3deg);
+	}
+
+	45% {
+		transform: translateX(-15%) rotate(-3deg);
+	}
+
+	60% {
+		transform: translateX(10%) rotate(2deg);
+	}
+
+	75% {
+		transform: translateX(-5%) rotate(-1deg);
+	}
+}
+
+.heartbeat {
+	animation: heartbeat 1.5s ease-in-out;
+}
+
+@keyframes heartbeat {
+	0%, 100% {
+		transform: scale(1);
+	}
+
+	10%, 30% {
+		transform: scale(0.9);
+	}
+
+	20%, 40% {
+		transform: scale(1.1);
+	}
+}
+
+.rubberBand {
+	animation: rubberBand 1s ease-in-out;
+}
+
+@keyframes rubberBand {
+	0%, 100% {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.25, 0.75, 1);
+	}
+
+	40% {
+		transform: scale3d(0.75, 1.25, 1);
+	}
+
+	50% {
+		transform: scale3d(1.15, 0.85, 1);
+	}
+
+	65% {
+		transform: scale3d(0.95, 1.05, 1);
+	}
+
+	75% {
+		transform: scale3d(1.05, 0.95, 1);
+	}
+}

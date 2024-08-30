@@ -1,35 +1,41 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: Arial, sans-serif;
+	font-family: sans-serif;
 }
+
 .container {
 	position: relative;
 	padding: 100vh 0;  /* Add padding to allow scrolling */
 }
+
 .horizontal-line {
 	position: fixed;
 	left: 0;
 	right: 0;
-	height: 2px;
-	background-color: #000;
+	height: 1px;
+	background-color: #666;
 	z-index: 100;
 }
+
 .horizontal-line::after {
 	content: attr(data-percentage);
 	position: absolute;
 	left: 10px;
 	top: 5px;
-	font-size: 14px;
+	font-size: 1rem;
+	color: #666;
 }
+
 .demo-box {
 	width: 300px;
 	height: 100px;
-	margin: 20px;
-	display: inline-block;
+	margin: 20px auto;
+	display: block;
 	transition: all 0.3s ease-in-out;
 	position: relative;
 }
+
 .demo-box::after {
 	content: attr(class);
 	position: absolute;
@@ -45,10 +51,8 @@ body {
 	padding: 2px;
 	border-radius: 3px;
 }
+
 .observe-triggered {
 	transform: scale(1.1);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-.custom-effect {
-	border-radius: 50%;
 }
