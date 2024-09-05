@@ -15,7 +15,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.25.2",
 		"@babel/preset-env": "^7.25.4",
-		"@happyprime/eslint-config": "^0.0.8",
+		"@happyprime/eslint-config": "^0.0.10",
 		"babel-jest": "^29.7.0",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0",
