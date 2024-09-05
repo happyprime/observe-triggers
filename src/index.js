@@ -123,6 +123,14 @@ class ObserveTriggers {
 	 */
 	setupObserver(element, className) {
 		const config = this.parseObserverClass(className);
+
+		/**
+		 * Calculate the rootMargin based on the distance from the opposite edge.
+		 *
+		 * If 10 is the value extracted from the class name, and "top" is the edge,
+		 * the intent is to trigger the observer when the element is 10% away from
+		 * the top. To work as expected, we apply this as 90% from the bottom.
+		 */
 		const rootMargin = 100 - parseInt(config.rootMargin);
 
 		const options = {
