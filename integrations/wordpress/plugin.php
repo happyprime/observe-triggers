@@ -38,9 +38,9 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 function enqueue_scripts(): void {
 	wp_enqueue_script(
 		'observe-triggers',
-		plugins_url( 'js/observe-triggers.js', __FILE__ ),
+		plugins_url( 'js/build/observe-triggers.js', __FILE__ ),
 		[],
-		filemtime( plugin_dir_path( __FILE__ ) . 'js/observe-triggers.js' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'js/build/observe-triggers.js' ),
 		true
 	);
 }
