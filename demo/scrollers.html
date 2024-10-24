@@ -7,6 +7,11 @@
 	<link rel="stylesheet" href="../demo/css/style.css">
 	<link rel="stylesheet" href="../demo/css/animations.css">
 	<link rel="stylesheet" href="../demo/css/colors.css">
+	<style>
+		:root {
+			--distance-from-trigger: 0;
+		}
+	</style>
 </head>
 <body class="scrollers">
     <div class="container">
@@ -20,9 +25,9 @@
 		<div class="horizontal-line" style="top: 80vh" data-percentage="80%"></div>
 		<div class="horizontal-line" style="top: 90vh" data-percentage="90%"></div>
 
-		<div class="demo-box double-box observe-trigger-10-top-scroll observe-scroll" style="background-color: #ff5733;"></div>
+		<div class="demo-box double-box observe-trigger-10-top-scroll observe-scroll animated-left" style="background-color: #ff5733;"></div>
         <div style="height: 30vh;"></div> <!-- Spacer -->
-		<div class="demo-box observe-trigger-30-top-scroll observe-scroll" style="background-color: #33ff57;"></div>
+		<div class="demo-box observe-trigger-30-top-scroll observe-scroll animated-right" style="background-color: #33ff57;"></div>
 		<div style="height: 10vh;"></div> <!-- Spacer -->
 
     </div>

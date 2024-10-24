@@ -72,3 +72,13 @@ body {
 	transform: scale(1.1);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+.animated-left {
+	transform: translateX( calc( var( --distance-from-trigger ) * -1px ) );
+	transition: transform 50ms linear;
+}
+
+.animated-right {
+	transform: translateX( calc( var( --distance-from-trigger ) * 1px ) );
+	transition: transform 50ms linear;
+}
