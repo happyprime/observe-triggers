@@ -1,1 +1,0 @@
-import ObserveTriggers from"./observe-triggers.js";new ObserveTriggers;
