@@ -1,7 +1,8 @@
-const fs = require('fs').promises;
-const path = require('path');
-const archiver = require('archiver');
-const { createReadStream, createWriteStream } = require('fs');
+// Import necessary modules using ES module syntax
+import { promises as fs } from 'fs';
+import path from 'path';
+import archiver from 'archiver';
+import { createReadStream, createWriteStream } from 'fs';
 
 /**
  *
