@@ -6,7 +6,11 @@ body {
 
 .container {
 	position: relative;
-	padding: 100vh 0;  /* Add padding to allow scrolling */
+	padding: 100vh 0 200vh 0;  /* Add padding to allow scrolling */
+}
+
+.scrollers .container {
+	padding-top: 20vh;
 }
 
 .horizontal-line {
@@ -36,8 +40,13 @@ body {
 	position: relative;
 }
 
+.double-box {
+	height: 200px;
+}
+
+.demo-box::before,
 .demo-box::after {
-	content: attr(class);
+	content: attr(style);
 	position: absolute;
 	bottom: -20px;
 	left: 0;
@@ -50,6 +59,13 @@ body {
 	background-color: rgba(255, 255, 255, 0.8);
 	padding: 2px;
 	border-radius: 3px;
+	width: fit-content;
+}
+
+.demo-box::after {
+	content: attr(class);
+	top: -20px;
+	bottom: initial;
 }
 
 .observe-triggered {

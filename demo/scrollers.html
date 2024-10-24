@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observe Triggers Demo</title>
+	<link rel="stylesheet" href="../demo/css/style.css">
+	<link rel="stylesheet" href="../demo/css/animations.css">
+	<link rel="stylesheet" href="../demo/css/colors.css">
+</head>
+<body class="scrollers">
+    <div class="container">
+        <div class="horizontal-line" style="top: 10vh" data-percentage="10%"></div>
+		<div class="horizontal-line" style="top: 20vh" data-percentage="20%"></div>
+		<div class="horizontal-line" style="top: 30vh" data-percentage="30%"></div>
+		<div class="horizontal-line" style="top: 40vh" data-percentage="40%"></div>
+		<div class="horizontal-line" style="top: 50vh" data-percentage="50%"></div>
+		<div class="horizontal-line" style="top: 60vh" data-percentage="60%"></div>
+		<div class="horizontal-line" style="top: 70vh" data-percentage="70%"></div>
+		<div class="horizontal-line" style="top: 80vh" data-percentage="80%"></div>
+		<div class="horizontal-line" style="top: 90vh" data-percentage="90%"></div>
+
+		<div class="demo-box double-box observe-trigger-10-top-scroll observe-scroll" style="background-color: #ff5733;"></div>
+        <div style="height: 30vh;"></div> <!-- Spacer -->
+		<div class="demo-box observe-trigger-30-top-scroll observe-scroll" style="background-color: #33ff57;"></div>
+		<div style="height: 10vh;"></div> <!-- Spacer -->
+
+    </div>
+
+    <script type="module">
+        import ObserveTriggers from '../src/index.js';
+
+		new ObserveTriggers();
+
+        window.addEventListener('observerTriggered', (event) => {
+            const { element, isIntersecting, config } = event.detail;
+            console.log(`Element intersected at ${config.rootMargin}% of viewport ${config.edge}. Action: ${config.action}, Custom class: ${config.class}`);
+        });
+    </script>
+</body>
+</html>
