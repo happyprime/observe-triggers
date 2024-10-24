@@ -40,7 +40,7 @@ async function createZip(sourceDir, outputFile) {
 
         archive.pipe(output);
         // Specify the target directory name in the zip file
-        archive.directory(sourceDir, 'observe-triggers');
+        archive.directory(sourceDir, 'observe-triggers-wp');
         archive.finalize();
     });
 }
@@ -48,8 +48,8 @@ async function createZip(sourceDir, outputFile) {
 async function buildPlugin() {
     try {
         const version = await getPluginVersion();
-        const tempDir = 'observe-triggers';
-        const zipName = `observe-triggers-${version}.zip`;
+        const tempDir = 'observe-triggers-wp';
+        const zipName = `observe-triggers-wp-${version}.zip`;
 
         // Clean up any existing temp directory
         try {
