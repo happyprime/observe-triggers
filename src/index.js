@@ -7,6 +7,10 @@ class ObserveTriggers {
 		};
 		this.observers = new Map();
 		this.elementStates = new WeakMap();
+		this.scrollers = new Map();
+		this.scrollersActive = false;
+		this.handleScrollers = this.handleScrollers.bind(this);
+		this.viewportHeight = false;
 		this.init();
 	}
 
@@ -32,7 +36,7 @@ class ObserveTriggers {
 	 * - baseTriggerClass: The base class name that triggers the observer.
 	 * - rootMargin: The root margin for the observer.
 	 * - edge: (Optional, default top) The edge to observe: top, bottom, left, right.
-	 * - action: (Optional, default toggle) The action to perform: toggle, add, remove, replace.
+	 * - action: (Optional, default toggle) The action to perform: toggle, add, remove, replace, scroll.
 	 * - class: (Optional, default observe-triggered) The class to add, toggle, or remove.
 	 * - root: (Optional, default null) The root element to observe.
 	 *
@@ -76,7 +80,9 @@ class ObserveTriggers {
 
 		// Parse for a specified action, if it exists.
 		if (
-			['toggle', 'add', 'remove', 'replace'].includes(parts[currentPart])
+			['toggle', 'add', 'remove', 'replace', 'scroll'].includes(
+				parts[currentPart]
+			)
 		) {
 			config.action = parts[currentPart];
 			currentPart++;
@@ -163,6 +169,40 @@ class ObserveTriggers {
 	}
 
 	/**
+	 * Handle scrollers.
+	 *
+	 * @param {Event} scrollEvent The scroll event.
+	 */
+	handleScrollers(scrollEvent) {
+		if (!this.scrollers) {
+			return;
+		}
+
+		this.scrollers.forEach(({ classes, config }, element) => {
+			if (false === this.viewportHeight) {
+				this.viewportHeight = window.innerHeight;
+			}
+
+			// If `observe-scroll` is present, calculate the distance from the top of the viewport to the top of the scroller.
+			if (classes.includes('observe-scroll')) {
+				// Calculate the distance from the top of the viewport to the top of the scroller.
+				let hasScrolledAmount =
+					this.viewportHeight * (config.rootMargin / 100) -
+					element.getBoundingClientRect().top;
+
+				if (hasScrolledAmount < 0) {
+					hasScrolledAmount = 0;
+				}
+
+				element.style.setProperty(
+					'--distance-from-trigger',
+					hasScrolledAmount
+				);
+			}
+		});
+	}
+
+	/**
 	 * Handle an observed intersection.
 	 *
 	 * @param {HTMLElement} element The element the observer is watching.
@@ -213,6 +253,51 @@ class ObserveTriggers {
 						}
 					});
 					element.classList.add(config.class);
+					break;
+				case 'scroll':
+					if (
+						entry.isIntersecting &&
+						!this.scrollers.has(element) &&
+						isTriggered
+					) {
+						const scrollerClasses = [];
+
+						// Capture any class names that start with `observe-scroll`.
+						element.classList.forEach((className) => {
+							if (className.startsWith('observe-scroll')) {
+								scrollerClasses.push(className);
+							}
+						});
+
+						// Add this scroller to the scrollers map.
+						this.scrollers.set(element, {
+							classes: scrollerClasses,
+							config,
+						});
+					} else if (
+						!entry.isIntersecting &&
+						this.scrollers.has(element)
+					) {
+						this.scrollers.delete(element);
+					}
+
+					// If there are intersecting scrollers, setup a scroll event listener.
+					if (this.scrollers.size > 0 && !this.scrollersActive) {
+						window.addEventListener(
+							'scroll',
+							this.handleScrollers,
+							{ passive: true }
+						);
+						this.scrollersActive = true;
+					} else if (this.scrollers.size === 0) {
+						window.removeEventListener(
+							'scroll',
+							this.handleScrollers,
+							{ passive: true }
+						);
+						this.scrollersActive = false;
+					}
+
 					break;
 				case 'toggle':
 				default:
