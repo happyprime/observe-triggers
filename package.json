@@ -13,8 +13,8 @@
 	],
 	"main": "build/index.js",
 	"devDependencies": {
-		"@babel/core": "^7.25.2",
-		"@babel/preset-env": "^7.25.4",
+		"@babel/core": "^7.25.9",
+		"@babel/preset-env": "^7.25.9",
 		"@happyprime/eslint-config": "^0.0.10",
 		"archiver": "^7.0.1",
 		"babel-jest": "^29.7.0",
@@ -22,7 +22,7 @@
 		"jest-environment-jsdom": "^29.7.0",
 		"npm-package-json-lint": "^8.0.0",
 		"npm-package-json-lint-config-default": "^7.0.1",
-		"terser": "^5.31.6"
+		"terser": "^5.36.0"
 	},
 	"scripts": {
 		"build": "terser src/index.js -o build/index.js",
