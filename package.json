@@ -1,10 +1,9 @@
 {
 	"name": "@happyprime/observe-triggers",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Intersection observer triggers based on class names.",
 	"author": "Happy Prime",
 	"license": "MIT",
-	"type": "module",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/happyprime/observe-triggers.git"
@@ -12,6 +11,7 @@
 	"files": [
 		"build"
 	],
+	"type": "module",
 	"main": "build/index.js",
 	"devDependencies": {
 		"@babel/core": "^7.26.0",
