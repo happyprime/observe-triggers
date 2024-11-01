@@ -5,7 +5,7 @@ export default {
 	output: {
 		file: 'integrations/wordpress/js/build/observe-triggers.js',
 		format: 'iife', // Immediately Invoked Function Expression, suitable for <script> tags
-		name: 'ObserveTriggersBundle'
+		name: 'ObserveTriggersBundle',
 	},
 	plugins: [resolve()],
 };
