@@ -7,6 +7,13 @@ class ObserveTriggers {
 		};
 		this.observers = new Map();
 		this.elementStates = new WeakMap();
+
+		// Observe the document for element additions.
+		this.documentMutationObserver = null;
+
+		// Observe the class changes of observed elements.
+		this.classMutationObserver = null;
+
 		this.init();
 	}
 
@@ -19,6 +26,54 @@ class ObserveTriggers {
 			this.observeElements()
 		);
 		window.addEventListener('load', () => this.observeElements());
+
+		// Observe the document for element additions and setup observers
+		// for any new elements that match the baseTriggerClass.
+		this.documentMutationObserver = new MutationObserver((mutations) => {
+			Array.from(mutations)
+				.filter((mutation) => mutation.type === 'childList')
+				.forEach((mutation) => {
+					Array.from(mutation.addedNodes)
+						.filter((node) => node.nodeType === Node.ELEMENT_NODE)
+						.forEach((node) => {
+							if (
+								node.matches(
+									`[class*="${this.config.baseTriggerClass}"]`
+								)
+							) {
+								Array.from(node.classList)
+									.filter((className) =>
+										className.startsWith(
+											this.config.baseTriggerClass
+										)
+									)
+									.forEach((className) =>
+										this.setupObserver(node, className)
+									);
+							}
+
+							// Process the children of the added node.
+							node.querySelectorAll(
+								`[class*="${this.config.baseTriggerClass}"]`
+							).forEach((element) => {
+								Array.from(element.classList)
+									.filter((className) =>
+										className.startsWith(
+											this.config.baseTriggerClass
+										)
+									)
+									.forEach((className) =>
+										this.setupObserver(element, className)
+									);
+							});
+						});
+				});
+		});
+
+		this.documentMutationObserver.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
 	}
 
 	/**
@@ -108,7 +163,10 @@ class ObserveTriggers {
 			.forEach((element) => {
 				const classes = Array.from(element.classList);
 				classes.forEach((className) => {
-					if (className.startsWith(this.config.baseTriggerClass)) {
+					if (
+						className.startsWith(this.config.baseTriggerClass) &&
+						!element.getAttribute('data-observer-id')
+					) {
 						this.setupObserver(element, className);
 					}
 				});
@@ -122,6 +180,9 @@ class ObserveTriggers {
 	 * @param {string} className The class name to parse.
 	 */
 	setupObserver(element, className) {
+		// Add a unique identifier to the element to prevent conflicts.
+		element.setAttribute('data-observer-id', crypto.randomUUID());
+
 		const config = this.parseObserverClass(className);
 
 		/**
@@ -222,8 +283,9 @@ class ObserveTriggers {
 		}
 
 		// Add and remove are one-time actions, so we disconnect the observer.
-		if (config.action.includes(['add', 'remove']) && isTriggered) {
+		if (['add', 'remove'].includes(config.action) && isTriggered) {
 			this.disconnectObserver(element, className);
+			this.observeClassChanges(element);
 		}
 
 		// Track whether the element has ever triggered the observer.
@@ -278,7 +340,59 @@ class ObserveTriggers {
 		});
 		this.observers.clear();
 		this.elementStates.clear();
+		if (this.classMutationObserver) {
+			this.classMutationObserver.disconnect();
+			this.classMutationObserver = null;
+		}
+	}
+
+	/**
+	 * Set up mutation observer for a specific element.
+	 *
+	 * @param {HTMLElement} element The element to observe.
+	 */
+	observeClassChanges(element) {
+		if (!this.classMutationObserver) {
+			this.classMutationObserver = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (
+						mutation.type === 'attributes' &&
+						mutation.attributeName === 'class'
+					) {
+						const element = mutation.target;
+						const classes = Array.from(element.classList);
+
+						classes.forEach((className) => {
+							if (
+								className.startsWith(
+									this.config.baseTriggerClass
+								)
+							) {
+								const config =
+									this.parseObserverClass(className);
+
+								if (
+									'add' === config.action &&
+									!element.classList.contains(config.class)
+								) {
+									this.setupObserver(element, className);
+								} else if (
+									'remove' === config.action &&
+									element.classList.contains(config.class)
+								) {
+									this.setupObserver(element, className);
+								}
+							}
+						});
+					}
+				});
+			});
+		}
+
+		this.classMutationObserver.observe(element, {
+			attributes: true,
+			attributeFilter: ['class'],
+		});
 	}
 }
-
 export default ObserveTriggers;
