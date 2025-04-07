@@ -106,7 +106,7 @@ class ObserveTriggers {
 			threshold: 0,
 			edge: 'top',
 			action: 'toggle',
-			class: 'observe-triggered',
+			class: this.config.baseTriggeredClass,
 			root: null,
 		};
 
