@@ -1,6 +1,6 @@
 {
 	"name": "@happyprime/observe-triggers",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"description": "Intersection observer triggers based on class names.",
 	"author": "Happy Prime",
 	"license": "MIT",

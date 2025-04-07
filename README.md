@@ -21,3 +21,10 @@ In which:
 * `add`: Adds the class when the element enters the intersection. Fires once.
 * `remove`: Removes the class when the element enters the intersection. Fires once.
 * `replace`: Replaces any other class added by an observer trigger when the element enters the intersection.
+
+## Changelog
+
+### 0.1.0
+
+* Add support for an `offsetTop` option to account for a fixed header.
+* Adjust `offsetTop` in WordPress to account for the admin bar height.
