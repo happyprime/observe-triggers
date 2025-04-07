@@ -3,6 +3,7 @@ class ObserveTriggers {
 		this.config = {
 			baseTriggerClass: 'observe-trigger',
 			baseTriggeredClass: 'observe-triggered',
+			offsetTop: 0,
 			...config,
 		};
 		this.observers = new Map();
@@ -200,7 +201,16 @@ class ObserveTriggers {
 		};
 
 		if ('top' === config.edge) {
-			options.rootMargin = '50% 0px -' + rootMargin + '% 0px';
+			/**
+			 * Calculate any necessary offset for the top edge and adjust the
+			 * root margin accordingly. This can be used to account for a fixed
+			 * header or other element.
+			 */
+			const offsetPercentage =
+				(this.config.offsetTop / window.innerHeight) * 100;
+			const adjustedRootMargin = rootMargin - offsetPercentage;
+
+			options.rootMargin = '50% 0px -' + adjustedRootMargin + '% 0px';
 		} else if ('bottom' === config.edge) {
 			options.rootMargin = '-' + rootMargin + '% 0px 50% 0px';
 		} else if ('left' === config.edge) {
