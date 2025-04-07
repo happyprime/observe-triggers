@@ -2,8 +2,8 @@
 Contributors: happyprime, jeremyfelt, slocker, philcable
 Tags: animation, javascript
 Requires at least: 6.6
-Tested up to: 6.7
-Stable tag: 1.0.2
+Tested up to: 6.8
+Stable tag: 1.1.0
 License: GPLv2 or later
 Requires PHP: 7.4
 
@@ -14,6 +14,11 @@ Enqueue the Observe Triggers library on the front-end in WordPress.
 Activate this plugin to enqueue the observe triggers library from https://github.com/happyprime/observe-triggers.
 
 ## Changelog
+
+### 1.1.0
+
+* Update Observe Triggers 0.1.0
+* Adds support for `offsetTop` handling when admin bar is visible.
 
 ### 1.0.2
 
