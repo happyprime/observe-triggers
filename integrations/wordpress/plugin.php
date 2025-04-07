@@ -36,11 +36,21 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
  * @see https://github.com/happyprime/observe-triggers/
  */
 function enqueue_scripts(): void {
-	wp_enqueue_script(
+	wp_register_script(
 		'observe-triggers',
 		plugins_url( 'js/build/observe-triggers.js', __FILE__ ),
 		[],
 		filemtime( plugin_dir_path( __FILE__ ) . 'js/build/observe-triggers.js' ),
 		true
 	);
+
+	wp_localize_script(
+		'observe-triggers',
+		'observeTriggersConfig',
+		[
+			'hasAdminBar' => is_admin_bar_showing(),
+		]
+	);
+
+	wp_enqueue_script( 'observe-triggers' );
 }
