@@ -349,7 +349,7 @@ class ObserveTriggers {
 			observers.forEach((observer) => observer.disconnect());
 		});
 		this.observers.clear();
-		this.elementStates.clear();
+		this.elementStates = new WeakMap();
 		if (this.classMutationObserver) {
 			this.classMutationObserver.disconnect();
 			this.classMutationObserver = null;
