@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Observe Triggers
  * Description:  Enqueue the observe triggers library on your site.
- * Version:      1.1.0
+ * Version:      1.2.0-beta
  * Plugin URI:   https://github.com/happyprime/observe-triggers/
  * Author:       Happy Prime
  * Author URI:   https://happyprime.co
