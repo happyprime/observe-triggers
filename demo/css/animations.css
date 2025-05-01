@@ -275,3 +275,22 @@
 		transform: scale3d(1.05, 0.95, 1);
 	}
 }
+
+:root {
+	--observe-triggers-scroll-offset: 0;
+	--default-scroll-offset: 150px;
+}
+
+.sideways {
+	width: 100%;
+}
+
+.sideways .scroll-x-inside-content {
+	display: flex;
+	width: 200px;
+  	gap: 2rem;
+  	background: #fff;
+  	padding: 1rem;
+	transform: translateX(calc(var(--observe-triggers-scroll-offset) * 1px - var(--default-scroll-offset)));
+	transition: transform 0.1s linear;
+}

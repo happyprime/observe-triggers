@@ -3,17 +3,31 @@ class ObserveTriggers {
 		this.config = {
 			baseTriggerClass: 'observe-trigger',
 			baseTriggeredClass: 'observe-triggered',
+			baseScrollClass: 'observe-scroll',
+			baseScrollingClass: 'observe-scrolling',
+			scrollOffsetProperty: '--observe-triggers-scroll-offset',
 			offsetTop: 0,
 			...config,
 		};
 		this.observers = new Map();
 		this.elementStates = new WeakMap();
 
+		// Manage scroll-based observers.
+		this.scrollElements = new Set();
+		this.boundScrollHandler = this.handleScroll.bind(this);
+
 		// Observe the document for element additions.
 		this.documentMutationObserver = null;
 
 		// Observe the class changes of observed elements.
 		this.classMutationObserver = null;
+
+		/**
+		 * A generic counter for observer IDs.
+		 *
+		 * Unique enough. This is auto-incremented as each observer is setup.
+		 */
+		this.observerId = 0;
 
 		this.init();
 	}
@@ -27,6 +41,10 @@ class ObserveTriggers {
 			this.observeElements()
 		);
 		window.addEventListener('load', () => this.observeElements());
+
+		// Bind setupScrolls to the class instance
+		this.setupScrolls = this.setupScrolls.bind(this);
+		window.addEventListener('observerTriggered', this.setupScrolls);
 
 		// Observe the document for element additions and setup observers
 		// for any new elements that match the baseTriggerClass.
@@ -181,8 +199,7 @@ class ObserveTriggers {
 	 * @param {string} className The class name to parse.
 	 */
 	setupObserver(element, className) {
-		// Add a unique identifier to the element to prevent conflicts.
-		element.setAttribute('data-observer-id', crypto.randomUUID());
+		element.setAttribute('data-observer-id', `obs-${++this.observerId}`);
 
 		const config = this.parseObserverClass(className);
 
@@ -354,6 +371,11 @@ class ObserveTriggers {
 			this.classMutationObserver.disconnect();
 			this.classMutationObserver = null;
 		}
+
+		if (this.scrollElements.size > 0) {
+			window.removeEventListener('scroll', this.boundScrollHandler);
+			this.scrollElements.clear();
+		}
 	}
 
 	/**
@@ -402,6 +424,98 @@ class ObserveTriggers {
 		this.classMutationObserver.observe(element, {
 			attributes: true,
 			attributeFilter: ['class'],
+		});
+	}
+
+	/**
+	 * Set up scroll handlers for scroll-based observers.
+	 *
+	 * @param {CustomEvent} event The custom event triggered by the observer.
+	 */
+	setupScrolls(event) {
+		const element = event.detail.element;
+
+		if (
+			event.detail.isIntersecting &&
+			element.classList.contains(this.config.baseScrollClass)
+		) {
+			// Set an initial trigger position to help maintain continuity when
+			// an observer is toggled off and back on.
+			if (!element._initialTriggerPosition) {
+				element._initialTriggerPosition =
+					element.getBoundingClientRect().top;
+			}
+
+			const currentOffset = element.style.getPropertyValue(
+				'--observe-scroll-offset'
+			);
+			if (currentOffset) {
+				element._lastKnownOffset = parseFloat(currentOffset);
+			}
+
+			this.scrollElements.add(element);
+
+			element.classList.add(this.config.baseScrollingClass);
+
+			if (this.scrollElements.size === 1) {
+				window.addEventListener('scroll', this.boundScrollHandler, {
+					passive: true,
+				});
+			}
+		} else if (
+			!event.detail.isIntersecting &&
+			element.classList.contains(this.config.baseScrollClass)
+		) {
+			const currentOffset = element.style.getPropertyValue(
+				'--observe-scroll-offset'
+			);
+			if (currentOffset) {
+				element._lastKnownOffset = parseFloat(currentOffset);
+			}
+
+			element.classList.remove(this.config.baseScrollingClass);
+
+			this.scrollElements.delete(element);
+
+			if (this.scrollElements.size === 0) {
+				window.removeEventListener('scroll', this.boundScrollHandler);
+			}
+		}
+	}
+
+	/**
+	 * Handle scroll events for scroll-based observers.
+	 */
+	handleScroll() {
+		requestAnimationFrame(() => {
+			for (const element of this.scrollElements) {
+				if (element && element.isConnected) {
+					const currentPosition = Math.round(
+						element.getBoundingClientRect().top
+					);
+					const scrollOffset = Math.round(
+						element._initialTriggerPosition - currentPosition
+					);
+
+					// If we have a last known offset, adjust the new offset to maintain continuity
+					if (element._lastKnownOffset !== undefined) {
+						const offsetDifference = Math.round(
+							scrollOffset - element._lastKnownOffset
+						);
+						element.style.setProperty(
+							this.config.scrollOffsetProperty,
+							element._lastKnownOffset + offsetDifference
+						);
+					} else {
+						element.style.setProperty(
+							this.config.scrollOffsetProperty,
+							scrollOffset
+						);
+					}
+				} else {
+					this.scrollElements.delete(element);
+				}
+			}
 		});
 	}
 }

@@ -15,6 +15,10 @@ Activate this plugin to enqueue the observe triggers library from https://github
 
 ## Changelog
 
+### 1.2.0-beta
+
+* Add support for scroll observation while an element is intersecting.
+
 ### 1.1.0
 
 * Update Observe Triggers 0.1.0
