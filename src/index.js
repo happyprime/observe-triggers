@@ -229,7 +229,8 @@ class ObserveTriggers {
 
 			options.rootMargin = '50% 0px -' + adjustedRootMargin + '% 0px';
 		} else if ('bottom' === config.edge) {
-			options.rootMargin = '-' + rootMargin + '% 0px 50% 0px';
+			options.rootMargin =
+				'50% 0px -' + parseInt(config.rootMargin) + '% 0px';
 		} else if ('left' === config.edge) {
 			options.rootMargin = '0px -' + rootMargin + '% 0px 50%';
 		} else if ('right' === config.edge) {

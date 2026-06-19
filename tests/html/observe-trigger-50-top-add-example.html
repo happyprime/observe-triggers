@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observe Trigger 50 Top Add Example</title>
+	<link rel="stylesheet" href="../../demo/css/style.css">
+	<link rel="stylesheet" href="../../demo/css/animations.css">
+	<link rel="stylesheet" href="../../demo/css/colors.css">
+</head>
+<body>
+    <div class="container">
+        <div class="horizontal-line" style="top: 10vh" data-percentage="10%"></div>
+		<div class="horizontal-line" style="top: 20vh" data-percentage="20%"></div>
+		<div class="horizontal-line" style="top: 30vh" data-percentage="30%"></div>
+		<div class="horizontal-line" style="top: 40vh" data-percentage="40%"></div>
+		<div class="horizontal-line" style="top: 50vh" data-percentage="50%"></div>
+		<div class="horizontal-line" style="top: 60vh" data-percentage="60%"></div>
+		<div class="horizontal-line" style="top: 70vh" data-percentage="70%"></div>
+		<div class="horizontal-line" style="top: 80vh" data-percentage="80%"></div>
+		<div class="horizontal-line" style="top: 90vh" data-percentage="90%"></div>
+
+        <div id="test-box" class="demo-box observe-trigger-50-top-add-example" style="background-color: #5733ff;">
+			<p>This box should have the `example` class when the top of the box crosses 50% from the top of the viewport. Once it has the class, it should remain.</p>
+		</div>
+        <div style="height: 10vh;"></div> <!-- Spacer -->
+    </div>
+
+    <script type="module">
+        import ObserveTriggers from '../../src/index.js';
+
+		new ObserveTriggers();
+
+        window.addEventListener('observerTriggered', (event) => {
+            const { element, isIntersecting, config } = event.detail;
+            console.log(`Element intersected at ${config.rootMargin}% of viewport ${config.edge}. Action: ${config.action}, Custom class: ${config.class}`);
+        });
+    </script>
+</body>
+</html>

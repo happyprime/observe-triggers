@@ -17,6 +17,7 @@
 		"@babel/core": "^7.26.10",
 		"@babel/preset-env": "^7.26.9",
 		"@happyprime/eslint-config": "^0.0.14",
+		"@playwright/test": "^1.52.0",
 		"@rollup/plugin-node-resolve": "^16.0.1",
 		"archiver": "^7.0.1",
 		"babel-jest": "^29.7.0",
@@ -26,6 +27,7 @@
 		"npm-package-json-lint": "^8.0.0",
 		"npm-package-json-lint-config-default": "^7.0.1",
 		"rollup": "^4.39.0",
+		"serve": "^14.2.4",
 		"terser": "^5.39.0"
 	},
 	"scripts": {
@@ -36,6 +38,9 @@
 		"fix": "eslint . --fix",
 		"test": "jest",
 		"lint:package": "node ./node_modules/npm-package-json-lint/dist/cli.js ./",
-		"watch": "nodemon --watch src --ext js --exec 'npm run build'"
+		"watch": "nodemon --watch src --ext js --exec 'npm run build'",
+		"test:e2e": "playwright test tests/e2e",
+		"test:e2e:headed": "playwright test tests/e2e --headed",
+		"test:e2e:debug": "playwright test tests/e2e --headed --debug"
 	}
 }
