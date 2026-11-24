@@ -1,0 +1,48 @@
+name: Playwright Tests
+
+on:
+  pull_request:
+    branches:
+      - trunk
+
+# The GITHUB_TOKEN used by Dependabot has read-only permissions by default. We
+# provide write permissions to this workflow so that comments can be left on
+# the pull request.
+#
+# @see https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#changing-github_token-permissions
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  tests_e2e:
+    name: Run end-to-end tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: 'npm'
+
+    - name: Verify Node dependency cache
+      uses: actions/cache@v4
+      with:
+        path: ./node_modules
+        key: node-dependencies-${{ hashFiles('package-lock.json') }}
+        restore-keys: node-dependencies-
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Run tests
+      run: npm run test:e2e
